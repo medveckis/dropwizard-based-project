@@ -1,0 +1,47 @@
+server:
+  rootPath: /
+  applicationContextPath: /
+  adminContextPath: /admin
+  applicationConnectors:
+    - type: http
+      port: 8903
+  adminConnectors:
+    - type: http
+      port: 9903
+
+database:
+  driverClass: org.h2.Driver
+  user: sa
+  #  password:
+  url: jdbc:h2:mem:borrowmanagementdb
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.H2Dialect
+    hibernate.hbm2ddl.auto: create-drop
+
+  maxWaitForConnection: 1s
+  validationQuery: "SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+  evictionInterval: 10s
+  minIdleTime: 1 minute
+
+
+logging:
+  level: INFO
+  # Logger-specific levels.
+  loggers:
+    org.hibernate.SQL: TRACE
+
+# Discovery-related settings.
+discovery:
+  serviceName: borrow-management-service
+
+jerseyClient:
+  minThreads: 1
+  maxThreads: 128
+  workQueueSize: 8
+  gzipEnabled: true
+  gzipEnabledForRequests: true
+  chunkedEncodingEnabled: true
