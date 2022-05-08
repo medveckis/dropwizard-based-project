@@ -69,11 +69,10 @@ public class BorrowManagementServiceApplication extends Application<BorrowManage
 
         environment.getObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-        CircuitBreakerManager userCircuitBreaker = new CircuitBreakerManager(new MetricRegistry(), 0.5, RateType.ONE_MINUTE);
-        UserServiceClient userServiceClient = new UserServiceClient(jerseyClient, configuration, userCircuitBreaker, environment.getObjectMapper());
+        CircuitBreakerManager defaultCircuitBreaker = new CircuitBreakerManager(new MetricRegistry(), 0.5, RateType.ONE_MINUTE);
 
-        CircuitBreakerManager bookCircuitBreaker = new CircuitBreakerManager(new MetricRegistry(), 0.5, RateType.ONE_MINUTE);
-        BookServiceClient bookServiceClient = new BookServiceClient(jerseyClient, configuration, bookCircuitBreaker, environment.getObjectMapper());
+        UserServiceClient userServiceClient = new UserServiceClient(jerseyClient, configuration, defaultCircuitBreaker, environment.getObjectMapper());
+        BookServiceClient bookServiceClient = new BookServiceClient(jerseyClient, configuration, defaultCircuitBreaker, environment.getObjectMapper());
 
         BorrowManagementDAO borrowManagementDAO = new BorrowManagementDAO(hibernateBundle.getSessionFactory());
 
